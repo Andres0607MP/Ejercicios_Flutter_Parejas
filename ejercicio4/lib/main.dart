@@ -7,115 +7,403 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
+      title: 'Inventario de Herramientas',
+      home: const InicioScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class InicioScreen extends StatelessWidget {
+  const InicioScreen({super.key});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  void abrirPantalla(BuildContext context, Widget pantalla) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => pantalla),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: const Text('Menú Principal'),
+        backgroundColor: const Color.fromARGB(255, 26, 148, 81),
+        foregroundColor: Colors.white,
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
           children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            const Icon(
+              Icons.construction,
+              size: 90,
+              color: Color.fromARGB(255, 26, 148, 81),
+            ),
+            const SizedBox(height: 15),
+
+            const Text(
+              'Inventario de Herramientas',
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            const Text(
+              'Gestiona las herramientas del ambiente de formación',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+
+            const SizedBox(height: 20),
+
+            Card(
+              child: ListTile(
+                leading: const Icon(
+                  Icons.inventory,
+                  color: Color.fromARGB(255, 26, 148, 81),
+                ),
+                title: const Text('Lista de Herramientas'),
+                subtitle: const Text(
+                  'Consultar herramientas disponibles',
+                ),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  abrirPantalla(context, const HerramientasScreen());
+                },
+              ),
+            ),
+
+            Card(
+              child: ListTile(
+                leading: const Icon(
+                  Icons.edit_document,
+                  color: Color.fromARGB(255, 26, 148, 81),
+                ),
+                title: const Text('Reportar Herramienta'),
+                subtitle: const Text(
+                  'Registrar una herramienta',
+                ),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  abrirPantalla(context, const ReporteHerramientaScreen());
+                },
+              ),
+            ),
+
+            Card(
+              child: ListTile(
+                leading: const Icon(
+                  Icons.tips_and_updates,
+                  color: Color.fromARGB(255, 26, 148, 81),
+                ),
+                title: const Text('Recomendaciones'),
+                subtitle: const Text(
+                  'Cuidados para las herramientas',
+                ),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  abrirPantalla(context, const RecomendacionesScreen());
+                },
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Card(
+              color: Colors.green.shade100,
+              child: const ListTile(
+                leading: Icon(Icons.inventory_2, color: Colors.green),
+                title: Text('Total herramientas'),
+                trailing: Text(
+                  '20',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+    );
+  }
+}
+
+class HerramientasScreen extends StatelessWidget {
+  const HerramientasScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> herramientas = [
+      {
+        "nombre": "Martillo",
+        "cantidad": "10",
+        "estado": "Disponible",
+        "ubicacion": "Estante A",
+        "icono": Icons.construction,
+        "color": Colors.green,
+      },
+      {
+        "nombre": "Taladro",
+        "cantidad": "3",
+        "estado": "En uso",
+        "ubicacion": "Taller",
+        "icono": Icons.handyman,
+        "color": Colors.orange,
+      },
+      {
+        "nombre": "Destornillador",
+        "cantidad": "7",
+        "estado": "Dañado",
+        "ubicacion": "Bodega",
+        "icono": Icons.build,
+        "color": Colors.red,
+      },
+      {
+        "nombre": "Llave Inglesa",
+        "cantidad": "5",
+        "estado": "Disponible",
+        "ubicacion": "Estante B",
+        "icono": Icons.build_circle,
+        "color": Colors.green,
+      },
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Herramientas'),
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: herramientas.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: ListTile(
+                    leading: Icon(
+                      herramientas[index]["icono"],
+                      color: herramientas[index]["color"],
+                    ),
+                    title: Text(herramientas[index]["nombre"]),
+                    subtitle: Text(
+                      "Cantidad: ${herramientas[index]["cantidad"]}\n"
+                      "Estado: ${herramientas[index]["estado"]}\n"
+                      "Ubicación: ${herramientas[index]["ubicacion"]}",
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Regresar al inicio'),
+          ),
+
+          const SizedBox(height: 10),
+        ],
+      ),
+    );
+  }
+}
+
+class ReporteHerramientaScreen extends StatefulWidget {
+  const ReporteHerramientaScreen({super.key});
+
+  @override
+  State<ReporteHerramientaScreen> createState() =>
+      _ReporteHerramientaScreenState();
+}
+
+class _ReporteHerramientaScreenState
+    extends State<ReporteHerramientaScreen> {
+  final _formKey = GlobalKey<FormState>();
+
+  final nombreController = TextEditingController();
+  final cantidadController = TextEditingController();
+  final estadoController = TextEditingController();
+  final observacionController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Reportar Herramienta'),
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: [
+              TextFormField(
+                controller: nombreController,
+                decoration: const InputDecoration(
+                  labelText: 'Nombre de la herramienta',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'El nombre es obligatorio';
+                  }
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: 15),
+
+              TextFormField(
+                controller: cantidadController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: 'Cantidad',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'La cantidad es obligatoria';
+                  }
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: 15),
+
+              TextFormField(
+                controller: estadoController,
+                decoration: const InputDecoration(
+                  labelText: 'Estado',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+
+              const SizedBox(height: 15),
+
+              TextFormField(
+                controller: observacionController,
+                maxLines: 3,
+                decoration: const InputDecoration(
+                  labelText: 'Observación',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.length < 10) {
+                    return 'La observación debe tener mínimo 10 caracteres';
+                  }
+                  return null;
+                },
+              ),
+
+              const SizedBox(height: 20),
+
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Herramienta registrada correctamente',
+                        ),
+                      ),
+                    );
+                  }
+                },
+                child: const Text('Guardar'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class RecomendacionesScreen extends StatelessWidget {
+  const RecomendacionesScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Recomendaciones de Cuidado'),
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(10),
+        children: const [
+          Card(
+            child: ListTile(
+              leading: Icon(
+                Icons.check_circle,
+                color: Colors.green,
+              ),
+              title: Text(
+                'Guardar las herramientas en lugares secos.',
+              ),
+            ),
+          ),
+
+          Card(
+            child: ListTile(
+              leading: Icon(
+                Icons.check_circle,
+                color: Colors.green,
+              ),
+              title: Text(
+                'Realizar mantenimiento periódico.',
+              ),
+            ),
+          ),
+
+          Card(
+            child: ListTile(
+              leading: Icon(
+                Icons.check_circle,
+                color: Colors.green,
+              ),
+              title: Text(
+                'Reportar daños inmediatamente.',
+              ),
+            ),
+          ),
+
+          Card(
+            child: ListTile(
+              leading: Icon(
+                Icons.check_circle,
+                color: Colors.green,
+              ),
+              title: Text(
+                'Mantener organizado el inventario.',
+              ),
+            ),
+          ),
+
+          Card(
+            child: ListTile(
+              leading: Icon(
+                Icons.check_circle,
+                color: Colors.green,
+              ),
+              title: Text(
+                'Limpiar las herramientas después de cada uso.',
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
